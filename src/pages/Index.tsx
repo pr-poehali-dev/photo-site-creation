@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   useEffect(() => {
@@ -14,6 +15,7 @@ const Index = () => {
       <Navigation />
       <Hero />
       <About />
+      <Footer />
     </div>
   );
 };
