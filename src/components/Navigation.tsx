@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 interface NavigationProps {
@@ -7,17 +7,40 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ className = "" }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("about");
 
   const menuItems = [
-    { name: "О НАС", href: "#about", active: true },
-    { name: "НАШИ ПРЕИМУЩЕСТВА", href: "#advantages" },
-    { name: "ИНТЕРЬЕР", href: "#interior" },
-    { name: "УСЛОВИЯ", href: "#conditions" },
-    { name: "ОТЗЫВЫ", href: "#reviews" },
-    { name: "АНКЕТА", href: "#form" },
-    { name: "FAQ", href: "#faq" },
-    { name: "КОНТАКТЫ", href: "#contacts" },
+    { name: "О НАС", href: "#about", id: "about" },
+    { name: "НАШИ ПРЕИМУЩЕСТВА", href: "#advantages", id: "advantages" },
+    { name: "ИНТЕРЬЕР", href: "#interior", id: "interior" },
+    { name: "УСЛОВИЯ", href: "#conditions", id: "conditions" },
+    { name: "ОТЗЫВЫ", href: "#reviews", id: "reviews" },
+    { name: "АНКЕТА", href: "#form", id: "form" },
+    { name: "FAQ", href: "#faq", id: "faq" },
+    { name: "КОНТАКТЫ", href: "#contacts", id: "contacts" },
   ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = menuItems.map((item) =>
+        document.getElementById(item.id),
+      );
+      const scrollPosition = window.scrollY + 100;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(menuItems[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial call
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleMenuClick = () => {
     setIsMobileMenuOpen(false);
@@ -44,7 +67,7 @@ const Navigation: React.FC<NavigationProps> = ({ className = "" }) => {
                   key={item.name}
                   href={item.href}
                   className={`text-sm font-medium transition-colors duration-200 ${
-                    item.active
+                    activeSection === item.id
                       ? "text-pink-500"
                       : "text-gray-300 hover:text-pink-400"
                   }`}
@@ -80,7 +103,7 @@ const Navigation: React.FC<NavigationProps> = ({ className = "" }) => {
                   href={item.href}
                   onClick={handleMenuClick}
                   className={`block px-6 py-3 text-sm font-medium transition-colors duration-200 ${
-                    item.active
+                    activeSection === item.id
                       ? "text-pink-500 bg-pink-500/10"
                       : "text-gray-300 hover:text-pink-400 hover:bg-gray-800"
                   }`}

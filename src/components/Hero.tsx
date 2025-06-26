@@ -2,7 +2,10 @@ import React from "react";
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center">
+    <section
+      id="hero"
+      className="relative min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center"
+    >
       <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <div className="space-y-6">
